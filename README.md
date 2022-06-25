@@ -1,3 +1,62 @@
+# CI/CD
+
+## YAML
+
+Yaml is a data serialization language like XML & JSON
+
+- standard format to transfer data
+- extensions: .yaml .yml
+
+### Introduction
+
+
+key-value pairs
+
+```
+app: user-authentication
+port: 9000
+version: 1.7
+```
+
+Everything that starts with a hastag # is a comment in yaml files.
+We can create an object 'microservice' by identing (tabbing) the block that follows:
+
+```
+microservice:
+  app: user-authentication
+  port: 9000
+  version: 1.7
+```
+
+In yaml true is also equivalent to yes or on and false to no and off.
+Lists are declared by a dash -
+
+```
+microservice:
+  - app: user-authentication
+    port: 9000
+    version: 1.7
+    deployed: false
+  - app: shopping-cart
+    port: 9002
+    versions:
+    - 1.9
+    - 2.0
+    - 2.1
+```
+
+We can also express a list as follows: versions: [1.9, 2.0, 2.1]
+
+```
+microservices:
+  - user-authentication
+  - shopping-cart
+```
+
+
+
+
+
 ## Jenkins WSL Installation
 
 Make an apt update

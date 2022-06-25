@@ -1,5 +1,32 @@
 # CI/CD
 
+## Introduction
+
+In software engineering, CI/CD or CICD is the combined practices of continuous integration (CI) and continuous deployment (CD).
+
+CI/CD bridges the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. CI/CD services compile the incremental code changes made by developers, then link and package them into software deliverables. Automated tests verify the software functionality, and automated deployment services deliver them to end users.
+
+The aim of CI/CD is to:
+- increase early defect discovery,
+- increase productivity, and
+- provide faster release cycles.
+
+The process contrasts with traditional methods where a collection of software updates were integrated into one large batch before deploying the newer version. Modern-day DevOps practices involve continuous development, continuous testing, continuous integration, continuous deployment and continuous monitoring of software applications throughout its development life cycle.
+
+### CI
+
+Continuous integration (CI) is the practice of merging all developers' working copies to a shared mainline several times a day. Grady Booch first proposed the term CI in his 1991 method.
+
+When embarking on a change, a developer takes a copy of the current code base on which to work. As other developers submit changed code to the source code repository, this copy gradually ceases to reflect the repository code
+
+The longer development continuous on a branch without merging back to the mainline, the great the risk of multiple integration conflicts and failures when the developer branch is eventually merged back.
+
+
+### CD
+
+Continuous deployment (CD)
+
+
 ## YAML
 
 Yaml is a data serialization language like XML & JSON
@@ -18,7 +45,7 @@ port: 9000
 version: 1.7
 ```
 
-Everything that starts with a hastag # is a comment in yaml files.
+Everything that starts with a hashtag # is a comment in yaml files.
 We can create an object 'microservice' by identing (tabbing) the block that follows:
 
 ```

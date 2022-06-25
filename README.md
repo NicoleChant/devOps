@@ -27,6 +27,32 @@ The longer development continuous on a branch without merging back to the mainli
 Continuous deployment (CD)
 
 
+### CI/CD with Github Actions ❤️
+
+
+Whenever we create a new repository on github we can see a tab named "Actions".
+
+Let's create a new repository.
+
+```
+gh create repo
+```
+
+You can clone locally the current repository for the purposes of this challenge. We will try to build an API which provides real time data about current laptop prices available in the market by utilizing Pythons FastAPI module. We will scrape these data from the large greek website Skroutz by utilizing the following link "https://www.skroutz.gr/c/25/laptop.html?o=laptop".
+
+If you don't follow the code 100% don't worry about it. The purpose of this challenge is to teach us the basic pillars of CI/CD workflow.
+
+We can run the api locally by running
+```
+uvicorn <name of the module>:<name of the API object> --reload
+```
+
+In our case, we will run
+```
+uvicorn app:app --reload
+```
+
+
 ## YAML
 
 Yaml is a data serialization language like XML & JSON
@@ -79,6 +105,7 @@ microservices:
   - user-authentication
   - shopping-cart
 ```
+
 
 
 

@@ -218,8 +218,10 @@ PRESS Ctrl+X and don't forget to restart the shell!
 
 As before lets reach out to the pg_hba configuration file and let's change this line
 
-# Database administrative login by Unix domain socket
+```
+#Database administrative login by Unix domain socket
 local   all             postgres                                md5
+```
 
 to <strong> trust </strong>.
 

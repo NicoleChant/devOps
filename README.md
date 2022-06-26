@@ -4,7 +4,7 @@
 
 In software engineering, CI/CD or CICD is the combined practices of continuous integration (CI) and continuous deployment (CD).
 
-FCI/CD bridges the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. CI/CD services compile the incremental code changes made by developers, then link and package them into software deliverables. Automated tests verify the software functionality, and automated deployment services deliver them to end users.
+CI/CD bridges the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. CI/CD services compile the incremental code changes made by developers, then link and package them into software deliverables. Automated tests verify the software functionality, and automated deployment services deliver them to end users.
 
 The aim of CI/CD is to:
 - increase early defect discovery,
@@ -246,7 +246,7 @@ CMD ["uvicorn" , "app:app --reload"]
 
 ### Postgres WSL
 
-We will follow the tutorial from Microsofts page <a href = "https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database" title = "Microsoft Setup Postgres on WSL">
+We will follow the tutorial from Microsofts page <a href = "https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database" title = "Microsoft Setup Postgres on WSL"> Microsoft Tutorial </a>
 
 ```
 sudo apt update

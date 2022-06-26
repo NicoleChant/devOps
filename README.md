@@ -4,7 +4,7 @@
 
 In software engineering, CI/CD or CICD is the combined practices of continuous integration (CI) and continuous deployment (CD).
 
-CI/CD bridges the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. CI/CD services compile the incremental code changes made by developers, then link and package them into software deliverables. Automated tests verify the software functionality, and automated deployment services deliver them to end users.
+FCI/CD bridges the gaps between development and operation activities and teams by enforcing automation in building, testing and deployment of applications. CI/CD services compile the incremental code changes made by developers, then link and package them into software deliverables. Automated tests verify the software functionality, and automated deployment services deliver them to end users.
 
 The aim of CI/CD is to:
 - increase early defect discovery,
@@ -52,6 +52,112 @@ In our case, we will run
 uvicorn app:app --reload
 ```
 
+Lets go to Github Actions tab. We can already see some templates related to the task we want to perform. We will use Python application template. Let's configure!
+
+We can see an automatically generated template yaml file which will perform the CI/CD workflow for us.
+We will try to decipher this template step by step but let's first make an important remark.
+When we work in our project we can simply create a .github/workflows directory within our existing repo. Then we can add the .yaml file which we want to monitor our CI/CD process. Hence, we can simply run
+
+```
+mkdir -p .github/workflows && touch .github/workflows/$(workflowName).yml
+```
+
+Then we can modify the workflow yaml to achieve our CI/CD. When we add, commit and push the changes, github will run the instructions present in the yaml file.
+
+Let's try to decipher the generated workflow yaml file.
+
+```
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest
+```
+
+First we have the name of the workflow. The name is OPTIONAL. These are the events Github recognizes:
+
+```
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+```
+
+"on" is REQUIRED! Everytime an event occurs (event-driven programming) Github TRIGGERS the workflow.
+The class "on" is where we define events that will trigger the workflow. In our current example, everytime someone pushes to main branch or a pull_request is being made on main branch the workflow is being triggered.
+Other events could be creating an issue.
+
+You can see a complete list of events that trigger workflows on the following link:
+
+https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
+
+The jobs section is being executed when an event in the "on" section occurs. We have jobs and the names of the job appear as members of the class and groups a set of actions that weill be executed.
+
+```
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+```
+
+actions path in github are were predefined actions are hosted. Insofar lets see whats happening
+
+```
+name: Optional
+on: Required
+jobs: Required
+  - one or more jobs job.job_id
+  - sequence of tasks (steps)
+  - steps can run commands, setup tasks OR run an action
+  uses - selects an action
+under path action the reusable code is hosted
+```
+
+The second step is setting up a python environment with the specified version. Then we use a prespecified yaml file which has the necessary instructions to setup python environment. The final with: specifies the python version we want to use.
+
+Whenever we are reffering to an action we write "uses:". When we use a unix command we write "run:".
 
 ## YAML
 
@@ -106,68 +212,84 @@ microservices:
   - shopping-cart
 ```
 
+## Docker on WSL
+
+### Containers
+
+Container is a running environment for an IMAGE
+
+### Main Docker Commands
+
+- docker images : lists all the available docker images
+- docker run <image_name> : runs the docker image
+- docker ps : status of all the running docker containers
+- docker stop <container_id>: stops docker container
+- docker ps -a : all the containers
+- docker start <container_id>: starts docker container
 
 
+### Dockerfile
+
+- RUN : executes any Linux command
+- COPY . /home/app : copies all files of the current directory and places them in /home/app directory
+
+First parameter of the COPY command refers to the HOST and the second parameter to the source destination.
+
+- CMD : executes an entry point linux command
+
+```
+RUN mkdir -p /home/app
+COPY . /home/app
+CMD ["uvicorn" , "app:app --reload"]
+```
 
 
+### Postgres WSL
 
-## Jenkins WSL Installation
+We will follow the tutorial from Microsofts page <a href = "https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database" title = "Microsoft Setup Postgres on WSL">
 
-Make an apt update
 ```
 sudo apt update
+sudo apt install postgresql postgresql-contrib
+psql --version
 ```
 
-Install Java RunTime Environment (JRE)
+Checking the status of the database
 
 ```
-sudo apt install default-jdk default-jre
+sudo service postgresql status
 ```
 
-Test if java is installed
+Start running our database
 
 ```
-javac
+sudo service postgresql start
 ```
 
-Setup GPG keys of the Jenkins repository
-
+Stop running our database
 ```
-wget -q -0 - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
-```
-
-Add Jenkins repository
-
-```
-sudo sh -c "echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list"
+sudo service postgresql stop
 ```
 
-Make an apt update before installing, since you just add a new repository,
-
+The default admin user, postgres, needs a password assigned in order to connect to a database. To set up a password:
 ```
-sudo apt update
-```
-
-Install Jenkins via apt
-
-```
-sudo apt install jenkins
+sudo passwd postgres
+exec $SHELL
 ```
 
-Start Jenkins services by
+To run PostgreSQL with pqsl shell:
 
 ```
-sudo /etc/init.d/jenkins start
+sudo service postgresql start
+sudo -u postgres psql
 ```
 
-Launch your browser and navigate to
+Once you have successfully entered the psql shell, you will see your command line change to look like this: postgres=#
 
-```
-http://{your_ip}:8080
-```
+To exit postgres=# enter: \q or use the shortcut key: Ctrl+D
 
-Here you are, your personal Jenkins in WSL!!! At the first time you launch your Jenkins, you will need an initial admin password, just “more” this,
 
-```
-sudo more /var/lib/jenkins/secrets/initialAdminPassword
-```
+
+### Linux GUI Chrome Browser on WSL
+
+#### Introduction & Setup

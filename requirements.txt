@@ -1,0 +1,5 @@
+fastapi
+typing
+bs4
+requests
+uvicorn

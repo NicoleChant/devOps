@@ -254,22 +254,27 @@ sudo apt install postgresql postgresql-contrib
 psql --version
 ```
 
-Checking the status of the database
+<ul>
+<li> Checking the status of the database
 
 ```
 sudo service postgresql status
 ```
+</li>
 
-Start running our database
+<li> Start running our database
 
 ```
 sudo service postgresql start
 ```
+</li>
 
-Stop running our database
+<li>Stop running our database
 ```
 sudo service postgresql stop
 ```
+</li>
+</ul>
 
 The default admin user, postgres, needs a password assigned in order to connect to a database. To set up a password:
 ```

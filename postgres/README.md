@@ -234,3 +234,13 @@ Then change the pg_hba to its initial state.
 
 
 ### PostgresSQL datatypes
+
+
+### PostgresSQL from Python
+
+```
+import psycopg2
+
+conn = psychopg2.connect(
+          host =
+)
